@@ -1,0 +1,621 @@
+<title>Fiesta de 18</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bungee+Shade&family=Comic+Neue:wght@400;700&family=Permanent+Marker&display=swap">
+<style>
+  :root {
+    --bg: #1a0a2e;
+    --bg-card: #2a1248;
+    --pink: #FF2D95;
+    --cyan: #00F0FF;
+    --lime: #39FF14;
+    --yellow: #FFE500;
+    --magenta: #FF00FF;
+    --orange: #FF6B00;
+    --text: #fff;
+    --text-muted: #c9a0ff;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Comic Neue', 'Comic Sans MS', cursive;
+    min-height: 100vh;
+    overflow-x: hidden;
+    position: relative;
+  }
+
+  canvas#sparkles {
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .page-wrap {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 2rem 1rem 4rem;
+    gap: 2rem;
+    max-width: 700px;
+    margin: 0 auto;
+  }
+
+  /* ---- marquee banner ---- */
+  .marquee-track {
+    width: 100vw;
+    overflow: hidden;
+    background: linear-gradient(90deg, var(--pink), var(--yellow), var(--lime), var(--cyan), var(--magenta), var(--pink));
+    padding: 0.35rem 0;
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+  .marquee-inner {
+    display: flex;
+    white-space: nowrap;
+    animation: marquee 12s linear infinite;
+    font-family: 'Permanent Marker', cursive;
+    font-size: 1.1rem;
+    color: #1a0a2e;
+    letter-spacing: 0.04em;
+  }
+  .marquee-inner span { padding: 0 2rem; }
+  @keyframes marquee {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+
+  /* ---- hero ---- */
+  .hero {
+    text-align: center;
+    padding: 1.5rem 0 0;
+  }
+  .hero-eyebrow {
+    font-family: 'Comic Neue', cursive;
+    font-weight: 700;
+    font-size: 1.3rem;
+    color: var(--yellow);
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    animation: pulse-color 2s ease-in-out infinite alternate;
+  }
+  @keyframes pulse-color {
+    0% { color: var(--yellow); text-shadow: 0 0 8px var(--yellow); }
+    50% { color: var(--pink); text-shadow: 0 0 8px var(--pink); }
+    100% { color: var(--cyan); text-shadow: 0 0 8px var(--cyan); }
+  }
+
+  .hero-title {
+    font-family: 'Bungee Shade', cursive;
+    font-size: clamp(2.8rem, 10vw, 5.5rem);
+    line-height: 1.1;
+    background: linear-gradient(135deg, var(--pink), var(--yellow), var(--lime), var(--cyan), var(--magenta));
+    background-size: 300% 300%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: gradient-shift 3s ease infinite;
+    filter: drop-shadow(3px 3px 0 rgba(255,0,255,0.4));
+    margin: 0.3rem 0 0.5rem;
+    text-wrap: balance;
+  }
+  @keyframes gradient-shift {
+    0%, 100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+  }
+
+  .hero-age {
+    font-family: 'Bungee Shade', cursive;
+    font-size: clamp(5rem, 18vw, 10rem);
+    line-height: 1;
+    color: var(--magenta);
+    text-shadow:
+      0 0 20px var(--magenta),
+      0 0 40px var(--pink),
+      0 0 80px var(--pink),
+      4px 4px 0 var(--cyan);
+    animation: bounce-number 1.5s ease-in-out infinite;
+  }
+  @keyframes bounce-number {
+    0%, 100% { transform: scale(1) rotate(-2deg); }
+    25% { transform: scale(1.08) rotate(2deg); }
+    50% { transform: scale(1) rotate(-2deg); }
+    75% { transform: scale(1.05) rotate(1deg); }
+  }
+
+  .hero-sub {
+    font-family: 'Permanent Marker', cursive;
+    font-size: 1.5rem;
+    color: var(--lime);
+    text-shadow: 0 0 10px var(--lime);
+    margin-top: 0.25rem;
+  }
+
+  /* ---- rainbow border card ---- */
+  .rainbow-card {
+    width: 100%;
+    padding: 3px;
+    border-radius: 16px;
+    background: linear-gradient(135deg, var(--pink), var(--yellow), var(--lime), var(--cyan), var(--magenta), var(--pink));
+    background-size: 400% 400%;
+    animation: gradient-shift 4s ease infinite;
+  }
+  .rainbow-card-inner {
+    background: var(--bg-card);
+    border-radius: 13px;
+    padding: 1.8rem 1.5rem;
+  }
+
+  /* ---- info section ---- */
+  .info-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    width: 100%;
+  }
+  @media (max-width: 440px) {
+    .info-grid { grid-template-columns: 1fr; }
+  }
+
+  .info-item {
+    text-align: center;
+    padding: 1.2rem 1rem;
+    border: 2px solid;
+    border-radius: 12px;
+    animation: border-dance 3s linear infinite;
+  }
+  .info-item:nth-child(1) { border-color: var(--pink); }
+  .info-item:nth-child(2) { border-color: var(--cyan); }
+  .info-item:nth-child(3) { border-color: var(--lime); }
+  .info-item:nth-child(4) { border-color: var(--yellow); }
+
+  @keyframes border-dance {
+    0%, 100% { box-shadow: inset 0 0 12px rgba(255,255,255,0.05), 0 0 8px currentColor; }
+    50% { box-shadow: inset 0 0 20px rgba(255,255,255,0.1), 0 0 20px currentColor; }
+  }
+
+  .info-label {
+    font-family: 'Permanent Marker', cursive;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--text-muted);
+    margin-bottom: 0.4rem;
+  }
+  .info-value {
+    font-weight: 700;
+    font-size: 1.15rem;
+    line-height: 1.3;
+  }
+
+  /* ---- dress code ---- */
+  .dress-code {
+    text-align: center;
+    width: 100%;
+  }
+  .dress-code h2 {
+    font-family: 'Permanent Marker', cursive;
+    font-size: 1.6rem;
+    color: var(--yellow);
+    text-shadow: 0 0 10px var(--yellow);
+    margin-bottom: 0.6rem;
+  }
+  .dress-code p {
+    font-size: 1.1rem;
+    color: var(--text-muted);
+    line-height: 1.5;
+  }
+  .dress-code .highlight {
+    color: var(--pink);
+    font-weight: 700;
+  }
+
+  /* ---- soundtrack ---- */
+  .soundtrack {
+    text-align: center;
+    width: 100%;
+    position: relative;
+  }
+  .soundtrack h2 {
+    font-family: 'Bungee Shade', cursive;
+    font-size: clamp(1.3rem, 4.5vw, 1.8rem);
+    color: var(--pink);
+    text-shadow: 0 0 15px var(--pink), 0 0 30px var(--pink);
+    margin-bottom: 0.3rem;
+  }
+  .soundtrack .song-title {
+    font-family: 'Permanent Marker', cursive;
+    font-size: 1.4rem;
+    color: var(--yellow);
+    text-shadow: 0 0 8px var(--yellow);
+  }
+  .soundtrack .song-artist {
+    font-family: 'Comic Neue', cursive;
+    font-size: 1rem;
+    color: var(--text-muted);
+    margin-bottom: 0.8rem;
+  }
+  .soundtrack .lyric-box {
+    background: rgba(255, 45, 149, 0.08);
+    border: 1px solid rgba(255, 45, 149, 0.3);
+    border-radius: 12px;
+    padding: 1.2rem 1.5rem;
+    font-style: italic;
+    color: var(--text-muted);
+    font-size: 1.05rem;
+    line-height: 1.7;
+    position: relative;
+    overflow: hidden;
+  }
+  .lyric-box .lyric-highlight {
+    color: var(--pink);
+    font-weight: 700;
+    font-style: normal;
+  }
+  .soundtrack .disclaimer {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    opacity: 0.5;
+    margin-top: 0.5rem;
+    font-style: italic;
+  }
+  .music-notes {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    overflow: hidden;
+  }
+  .music-note {
+    position: absolute;
+    font-size: 1.4rem;
+    opacity: 0;
+    animation: float-note 3s ease-in-out infinite;
+  }
+  .music-note:nth-child(1) { left: 5%; animation-delay: 0s; color: var(--pink); }
+  .music-note:nth-child(2) { left: 25%; animation-delay: 0.7s; color: var(--cyan); }
+  .music-note:nth-child(3) { left: 50%; animation-delay: 1.4s; color: var(--yellow); }
+  .music-note:nth-child(4) { left: 75%; animation-delay: 2.1s; color: var(--lime); }
+  .music-note:nth-child(5) { right: 5%; animation-delay: 0.3s; color: var(--magenta); }
+  @keyframes float-note {
+    0% { bottom: -10%; opacity: 0; transform: rotate(0deg) scale(0.8); }
+    30% { opacity: 0.8; }
+    70% { opacity: 0.6; }
+    100% { bottom: 110%; opacity: 0; transform: rotate(25deg) scale(1.2); }
+  }
+
+  /* ---- cringe phrases ---- */
+  .cringe-wall {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.6rem;
+    width: 100%;
+  }
+  .cringe-tag {
+    padding: 0.4rem 0.9rem;
+    border-radius: 99px;
+    font-family: 'Permanent Marker', cursive;
+    font-size: 0.9rem;
+    white-space: nowrap;
+    animation: wobble 2s ease-in-out infinite;
+  }
+  .cringe-tag:nth-child(odd) { animation-delay: -0.5s; }
+  .cringe-tag:nth-child(1) { background: var(--pink); color: #fff; }
+  .cringe-tag:nth-child(2) { background: var(--cyan); color: #1a0a2e; }
+  .cringe-tag:nth-child(3) { background: var(--lime); color: #1a0a2e; }
+  .cringe-tag:nth-child(4) { background: var(--yellow); color: #1a0a2e; }
+  .cringe-tag:nth-child(5) { background: var(--magenta); color: #fff; }
+  .cringe-tag:nth-child(6) { background: var(--orange); color: #fff; }
+  .cringe-tag:nth-child(7) { background: var(--pink); color: #fff; }
+  .cringe-tag:nth-child(8) { background: var(--cyan); color: #1a0a2e; }
+
+  @keyframes wobble {
+    0%, 100% { transform: rotate(-2deg) scale(1); }
+    50% { transform: rotate(2deg) scale(1.05); }
+  }
+
+  /* ---- RSVP ---- */
+  .rsvp-section {
+    text-align: center;
+    width: 100%;
+  }
+  .rsvp-section h2 {
+    font-family: 'Bungee Shade', cursive;
+    font-size: clamp(1.5rem, 5vw, 2.2rem);
+    color: var(--cyan);
+    text-shadow: 0 0 15px var(--cyan), 0 0 30px var(--cyan);
+    margin-bottom: 0.5rem;
+    animation: neon-flicker 4s ease-in-out infinite;
+  }
+  @keyframes neon-flicker {
+    0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% {
+      text-shadow: 0 0 15px var(--cyan), 0 0 30px var(--cyan);
+      opacity: 1;
+    }
+    20%, 24%, 55% {
+      text-shadow: none;
+      opacity: 0.8;
+    }
+  }
+  .rsvp-section p {
+    font-size: 1.15rem;
+    color: var(--text-muted);
+    line-height: 1.6;
+  }
+  .rsvp-number {
+    font-family: 'Permanent Marker', cursive;
+    font-size: 1.8rem;
+    color: var(--lime);
+    text-shadow: 0 0 10px var(--lime);
+    display: block;
+    margin-top: 0.6rem;
+    letter-spacing: 0.08em;
+  }
+
+  /* ---- visitor counter (fake) ---- */
+  .visitor-counter {
+    margin-top: 1rem;
+    padding: 0.6rem 1.5rem;
+    background: #000;
+    border: 2px solid var(--lime);
+    border-radius: 6px;
+    font-family: 'Courier New', monospace;
+    font-size: 0.85rem;
+    color: var(--lime);
+    text-align: center;
+    box-shadow: 0 0 10px rgba(57, 255, 20, 0.3);
+  }
+  .visitor-counter .count {
+    font-weight: 700;
+    font-size: 1.2rem;
+  }
+
+  /* ---- footer ---- */
+  .footer-text {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    text-align: center;
+    opacity: 0.6;
+    font-style: italic;
+  }
+
+  /* ---- cursor trail ---- */
+  .trail-dot {
+    position: fixed;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9999;
+    animation: trail-fade 0.6s ease-out forwards;
+  }
+  @keyframes trail-fade {
+    0% { transform: scale(1); opacity: 1; }
+    100% { transform: scale(0); opacity: 0; }
+  }
+
+  /* ---- reduced motion ---- */
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+    .marquee-inner { animation: none; }
+  }
+</style>
+
+<canvas id="sparkles"></canvas>
+
+<div class="page-wrap">
+
+  <!-- Marquee -->
+  <div class="marquee-track">
+    <div class="marquee-inner">
+      <span>YA SOY LEGAL * YA SOY LEGAL * YA SOY LEGAL * YA SOY LEGAL * YA SOY LEGAL * YA SOY LEGAL *</span>
+      <span>YA SOY LEGAL * YA SOY LEGAL * YA SOY LEGAL * YA SOY LEGAL * YA SOY LEGAL * YA SOY LEGAL *</span>
+    </div>
+  </div>
+
+  <!-- Hero -->
+  <div class="hero">
+    <div class="hero-eyebrow">Estas cordialmente invitad@ a</div>
+    <div class="hero-title">Mi Fiestota</div>
+    <div class="hero-age">18</div>
+    <div class="hero-sub">ya no me pueden decir nada</div>
+  </div>
+
+  <!-- Info card -->
+  <div class="rainbow-card">
+    <div class="rainbow-card-inner">
+      <div class="info-grid">
+        <div class="info-item">
+          <div class="info-label">Cuando</div>
+          <div class="info-value">Sabado 5 de Septiembre<br>8:00 PM - ???</div>
+        </div>
+        <div class="info-item">
+          <div class="info-label">Donde</div>
+          <div class="info-value">Salon "Las Palmas"<br>Calle Reforma #123</div>
+        </div>
+        <div class="info-item">
+          <div class="info-label">Tema</div>
+          <div class="info-value">Neon Party<br>(obvio)</div>
+        </div>
+        <div class="info-item">
+          <div class="info-label">Requisito</div>
+          <div class="info-value">Traer regalo<br>(no es opcional)</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Dress code -->
+  <div class="dress-code">
+    <h2>CODIGO DE VESTIMENTA</h2>
+    <p>
+      Ponte lo mas <span class="highlight">brillante y fosforescente</span> que tengas en tu closet.
+      Si no brillas en la oscuridad, <span class="highlight">ni te presentes</span>.
+      Glitter es obligatorio. Lentejuelas son un plus.
+    </p>
+  </div>
+
+  <!-- Soundtrack -->
+  <div class="rainbow-card">
+    <div class="rainbow-card-inner soundtrack">
+      <div class="music-notes">
+        <span class="music-note">&#9835;</span>
+        <span class="music-note">&#9834;</span>
+        <span class="music-note">&#9835;</span>
+        <span class="music-note">&#9834;</span>
+        <span class="music-note">&#9835;</span>
+      </div>
+      <h2>SOUNDTRACK OFICIAL</h2>
+      <div class="song-title">"Quinceañera"</div>
+      <div class="song-artist">Thalia (pero para los 18, porque si)</div>
+      <div class="lyric-box">
+        <span class="lyric-highlight">Ya no soy una niña</span>, soy toda una mujer<br>
+        hoy quiero que el mundo lo pueda saber<br>
+        que ya puedo sentir mariposas volar<br>
+        <span class="lyric-highlight">que ya tengo la edad para poder amar</span>
+      </div>
+      <div class="disclaimer">si, ya se que dice quinceañera, pero igual aplica... mas o menos</div>
+    </div>
+  </div>
+
+  <!-- Cringe tags -->
+  <div class="cringe-wall">
+    <span class="cringe-tag">Barra libre*</span>
+    <span class="cringe-tag">DJ en vivo</span>
+    <span class="cringe-tag">Photobooth</span>
+    <span class="cringe-tag">Karaoke</span>
+    <span class="cringe-tag">Mesa de dulces</span>
+    <span class="cringe-tag">Reggaeton toda la noche</span>
+    <span class="cringe-tag">Concurso de baile</span>
+    <span class="cringe-tag">Sorpresas</span>
+  </div>
+
+  <!-- RSVP -->
+  <div class="rainbow-card">
+    <div class="rainbow-card-inner rsvp-section">
+      <h2>CONFIRMA O TE BUSCO</h2>
+      <p>
+        No me dejes en visto. Confirma antes del 1 de Septiembre
+        o pierdes tu lugar (y mi amistad).
+      </p>
+      <span class="rsvp-number">55 1234 5678</span>
+      <p style="font-size: 0.85rem; margin-top: 0.5rem; opacity: 0.7;">
+        *Barra libre hasta que se acabe el presupuesto de mis papas
+      </p>
+    </div>
+  </div>
+
+  <!-- Fake visitor counter -->
+  <div class="visitor-counter">
+    Visitantes a esta invitacion: <span class="count" id="counter">000482</span>
+  </div>
+
+  <p class="footer-text">
+    Hecho con mucho cringe y cero verguenza &mdash; nos vemos ahi
+  </p>
+
+</div>
+
+<script>
+// Sparkle canvas
+(function() {
+  const canvas = document.getElementById('sparkles');
+  const ctx = canvas.getContext('2d');
+  let w, h;
+  const particles = [];
+  const colors = ['#FF2D95','#00F0FF','#39FF14','#FFE500','#FF00FF','#FF6B00'];
+
+  function resize() {
+    w = canvas.width = window.innerWidth;
+    h = canvas.height = window.innerHeight;
+  }
+  resize();
+  window.addEventListener('resize', resize);
+
+  function Particle() {
+    this.reset();
+  }
+  Particle.prototype.reset = function() {
+    this.x = Math.random() * w;
+    this.y = Math.random() * h;
+    this.size = Math.random() * 3 + 1;
+    this.speed = Math.random() * 0.5 + 0.2;
+    this.color = colors[Math.floor(Math.random() * colors.length)];
+    this.opacity = Math.random() * 0.8 + 0.2;
+    this.phase = Math.random() * Math.PI * 2;
+    this.twinkleSpeed = Math.random() * 0.03 + 0.01;
+  };
+
+  for (let i = 0; i < 80; i++) particles.push(new Particle());
+
+  function draw() {
+    ctx.clearRect(0, 0, w, h);
+    for (const p of particles) {
+      p.phase += p.twinkleSpeed;
+      const flicker = 0.5 + 0.5 * Math.sin(p.phase);
+      ctx.globalAlpha = p.opacity * flicker;
+      ctx.fillStyle = p.color;
+
+      // draw a 4-point star
+      const s = p.size * (0.8 + 0.4 * flicker);
+      ctx.beginPath();
+      for (let i = 0; i < 4; i++) {
+        const angle = (i / 4) * Math.PI * 2 - Math.PI / 2;
+        const outerX = p.x + Math.cos(angle) * s * 2.5;
+        const outerY = p.y + Math.sin(angle) * s * 2.5;
+        const innerAngle = angle + Math.PI / 4;
+        const innerX = p.x + Math.cos(innerAngle) * s * 0.8;
+        const innerY = p.y + Math.sin(innerAngle) * s * 0.8;
+        if (i === 0) ctx.moveTo(outerX, outerY);
+        else ctx.lineTo(outerX, outerY);
+        ctx.lineTo(innerX, innerY);
+      }
+      ctx.closePath();
+      ctx.fill();
+
+      p.y -= p.speed;
+      p.x += Math.sin(p.phase) * 0.3;
+      if (p.y < -10) { p.y = h + 10; p.x = Math.random() * w; }
+    }
+    ctx.globalAlpha = 1;
+    requestAnimationFrame(draw);
+  }
+  draw();
+})();
+
+// Cursor trail
+(function() {
+  const trailColors = ['#FF2D95','#00F0FF','#39FF14','#FFE500','#FF00FF'];
+  let ci = 0;
+  document.addEventListener('mousemove', function(e) {
+    const dot = document.createElement('div');
+    dot.className = 'trail-dot';
+    dot.style.left = (e.clientX - 6) + 'px';
+    dot.style.top = (e.clientY - 6) + 'px';
+    dot.style.background = trailColors[ci % trailColors.length];
+    ci++;
+    document.body.appendChild(dot);
+    dot.addEventListener('animationend', function() { dot.remove(); });
+  });
+})();
+
+// Fake counter increment
+(function() {
+  const el = document.getElementById('counter');
+  let n = 482;
+  setInterval(function() {
+    n += Math.floor(Math.random() * 3) + 1;
+    el.textContent = String(n).padStart(6, '0');
+  }, 4000);
+})();
+</script>
